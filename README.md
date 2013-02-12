@@ -4,7 +4,7 @@ Modified version of Graphital for use on OpenShift (http://www.openshift.com). W
 
 ## Usage 
 
-* Clone this repository and copy the 'graphital' subdirectory to the root of your OpenShift app repository
+* Clone this repository and copy everything *except* 'openshift_action_hooks', 'README.md' and '.git' into a directory called 'graphital' at the root of your OpenShift app repository
 * Copy the action hook script excerpts from the 'openshift_action_hooks' directory into the appropriate scripts within your OpenShift app repository's '.openshift/action_hooks' directory
 * Within the 'graphital' subdirectory you copied, make a copy of the 'graphital.conf.eg' file called 'graphital.conf'. Configure the variables within this file to suit your use case
 * Use Git to add and commit the new files and start your app
