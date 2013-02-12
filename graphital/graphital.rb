@@ -1,16 +1,16 @@
 #!/usr/bin/ruby
+# Graphital modified for use on OpenShift, with stats to be pulled rather than pushed
+# Modified by Katie Miller (katie@codemiller.com)
 
 begin
-  load '/etc/graphital.conf'
+  graphitalDir = ENV['OPENSHIFT_DATA_DIR'] + '/graphital'
+  load "#{graphitalDir}/graphital.conf" 
 rescue LoadError
   begin
-    load '/opt/graphital/graphital.conf'
-  rescue LoadError
-    load '/opt/graphital/graphital.conf.eg'
+    load "#{graphitalDir}/graphital.conf.eg"
   end
 end
 
-require 'socket'
 require 'timeout'
 
 def vitals
@@ -32,8 +32,7 @@ def run_vital(item)
   vital
 end
 
-def vital_output(host,port)
-  socket = TCPSocket.open(host,port)
+def vital_output(dir, basefilename)
   time = Time.now.to_i.to_s
   output = ''
   vitals.each do |vital|
@@ -42,13 +41,12 @@ def vital_output(host,port)
       output += "#{$PREFIX}.#{vital} #{time}\n"
     end
   end
-  puts output
-  socket.print(output)
-  socket.close
+  filename = "#{basefilename}.#{time}"
+  File.open("#{dir}/#{filename}", 'w') { |file| file.write(output) }
 end
 
 loop {
-  output = Thread.new{vital_output($HOST,$PORT)} 
+  output = Thread.new{vital_output($OUTPUT_DIR, $BASE_FILENAME)} 
   sleep $INTERVAL;
 }
 

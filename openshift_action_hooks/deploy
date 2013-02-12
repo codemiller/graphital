@@ -1,0 +1,22 @@
+#!/bin/bash
+# To be inserted in deploy hook script
+
+# Set up Graphital
+GRAPHITAL_HOME=$OPENSHIFT_DATA_DIR/graphital
+
+if [ -d $GRAPHITAL_HOME ]
+then
+    echo "Graphital dir found" 
+    cp $OPENSHIFT_REPO_DIR/graphital/graphital.conf $GRAPHITAL_HOME
+else
+    cp -rf $OPENSHIFT_REPO_DIR/graphital $OPENSHIFT_DATA_DIR
+fi
+
+if [ ! -d $GRAPHITAL_HOME/output ]; then
+    mkdir $GRAPHITAL_HOME/output
+fi
+
+if [ ! `gem list daemons -i` ]; then
+    gem install daemons
+fi
+

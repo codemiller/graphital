@@ -1,0 +1,8 @@
+#!/bin/bash
+# To be inserted in a stop hook script 
+
+# Stop Graphital
+echo "Stopping Graphital"
+cd $OPENSHIFT_DATA_DIR/graphital
+ruby daemon.rb stop
+

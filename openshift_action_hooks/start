@@ -1,0 +1,8 @@
+#!/bin/bash
+# To be inserted in a start hook script 
+
+# Start Graphital
+echo "Starting Graphital"
+cd $OPENSHIFT_DATA_DIR/graphital
+ruby daemon.rb start 
+
